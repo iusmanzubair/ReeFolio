@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type ChangeEvent } from "react"
 import { createPortal } from "react-dom"
 import { toast } from "sonner"
 import { loadingMessages, portfolioFacts } from "../utils/processing-resume"
+import { axiosInstance } from "../utils/axios-instance"
 
 interface UploadResumeProps {
   open: boolean,
@@ -19,6 +20,8 @@ export const UploadResume = ({ open, onOpenChange, selectedTheme, handleCreatePo
   const [progressValue, setProgressValue] = useState<number>(0);
   const [currentMessage, setCurrentMessage] = useState<number>(0);
   const [currentFact, setCurrentFact] = useState<number>(0);
+  const [customBodyResume, setCustomBodyResume] = useState("");
+  const [showPreview, setShowPreview] = useState<boolean>(false);
 
   const progressRef = useRef(progressValue);
 
@@ -73,7 +76,6 @@ export const UploadResume = ({ open, onOpenChange, selectedTheme, handleCreatePo
     const messageInterval = setInterval(() => {
       setCurrentMessage((prev) => {
         const newIndex = Math.min(Math.floor((progressRef.current / 100) * loadingMessages.length), loadingMessages.length - 1);
-        console.log(progressValue);
         return newIndex !== prev ? newIndex : prev;
       })
     }, 3000)
@@ -81,6 +83,61 @@ export const UploadResume = ({ open, onOpenChange, selectedTheme, handleCreatePo
     const factInterval = setInterval(() => {
       setCurrentFact(prev => (prev + 1) % portfolioFacts.length);
     }, 6000)
+
+    let response;
+    try {
+      response = await axiosInstance.post("/api/extract-report-gemini", { base64: base64Data, selectedTheme });
+      console.log(response);
+
+      if (response.status === 200) {
+        const { data } = response;
+        setCustomBodyResume(data);
+
+        clearInterval(progressInterval);
+        clearInterval(factInterval);
+        clearInterval(messageInterval);
+
+        const completionAnimation = () => {
+          setProgressValue((prev) => {
+            const newValue = prev + 2;
+
+            if (newValue >= 100) {
+              clearInterval(completionInterval);
+
+              setTimeout(() => {
+                toast.success("Portfolio created successfully");
+                setIsLoading(false);
+                setShowPreview(true);
+              }, 800)
+
+              return 100;
+            }
+
+            return newValue;
+          })
+        }
+
+        const completionInterval = setInterval(completionAnimation, 50);
+      }
+      else {
+        clearInterval(progressInterval);
+        clearInterval(factInterval);
+        clearInterval(messageInterval);
+        toast.error("Unable to create portfolio");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+      clearInterval(progressInterval);
+      clearInterval(factInterval);
+      clearInterval(messageInterval);
+      toast.error("Unable to create portfolio");
+      setIsLoading(false);
+    } finally {
+      if (!response || response.status !== 200) {
+        setIsLoading(false);
+      }
+    }
   }
 
   const handleBack = () => {
@@ -143,6 +200,15 @@ export const UploadResume = ({ open, onOpenChange, selectedTheme, handleCreatePo
                       <h6 className="font-semibold text-primary text-sm">Did you know?</h6>
                       <p className="text-center px-6 text-sm">{portfolioFacts[currentFact]}</p>
                     </div>
+                  </div>
+                )}
+
+                {showPreview && (
+                  <div className="flex flex-col gap-1 items-center justify-center">
+                    <p className="mb-2 bg-primary/30 p-3.5 w-fit rounded-full"><CircleCheck className="w-9 h-9 text-primary" strokeWidth={1.5} /></p>
+                    <h3 className="text-base font-semibold">Portfolio Ready!</h3>
+                    <p className="text-secondary text-sm">We've successfully extracted your details and built your site.</p>
+                    <button className="primary-btn py-2.5 px-5 rounded-xl mt-4" onClick={() => handleCreatePortfolio(customBodyResume)}>View My Portfolio</button>
                   </div>
                 )}
 
