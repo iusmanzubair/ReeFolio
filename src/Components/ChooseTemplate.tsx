@@ -66,10 +66,27 @@ export const ChooseTemplate = () => {
           return;
         }
 
+        const result = await axiosInstance.post("/api/create-portfolio", { userId: "guest", themeName, customBodyResume });
+        console.log(result.data);
+        if (result.status === 200) {
+          const { data } = result.data;
+          const url = `/p/${data.id}`;
 
+          const guestIds = JSON.parse(sessionStorage.getItem("guestPortfolioIds") || '[]');
+          guestIds.push(data.id);
+          sessionStorage.setItem("guestPortfolioIds", JSON.stringify(guestIds));
+
+          window.open(url, '_blank');
+        }
+        else {
+          toast.error("Failed to create portfolio");
+        }
       } catch (error) {
         console.log(error);
-
+        toast.error("An error occurred");
+      } finally {
+        setIsCreating(false);
+        setIsOpen(false);
       }
     }
 

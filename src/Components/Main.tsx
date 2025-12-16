@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowRight, FileText } from "lucide-react"
 import { MaxWidthWrapper } from "./MaxWidthWrapper"
+import { Link } from "react-router"
 
 export const Main = () => {
   return <MaxWidthWrapper className="p-12 w-full flex items-center justify-center text-center">
@@ -9,7 +10,7 @@ export const Main = () => {
       <p className="text-2xl font-light text-secondary w-[80%]">Just upload your resume and get an instant professional portfolio website. Customize it or build from scratch - no coding required.</p>
 
       <div className="space-x-4 my-4">
-        <button className="primary-btn inline-flex items-center gap-2 py-4 px-6 rounded-2xl">Build My Portfolio<ArrowRight strokeWidth={1.5} className="w-5 h-5" /></button>
+        <Link to="/choose-template" className="primary-btn inline-flex items-center gap-2 py-4 px-6 rounded-2xl">Build My Portfolio<ArrowRight strokeWidth={1.5} className="w-5 h-5" /></Link>
         <button className="cursor-pointer border-[0.1px] bg-bgBlack/20 border-neutral-700 hover:border-primary transition-all duration-500 py-4 px-6 rounded-2xl">Learn More</button>
       </div>
 

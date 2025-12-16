@@ -91,6 +91,7 @@ export const UploadResume = ({ open, onOpenChange, selectedTheme, handleCreatePo
 
       if (response.status === 200) {
         const { data } = response;
+        console.log("customBodyData: ", data);
         setCustomBodyResume(data);
 
         clearInterval(progressInterval);
