@@ -1,4 +1,4 @@
-import type { Config } from '../types/portfolio';
+import type { Config } from '../Components/NeoSpark/types/portfolio';
 
 export const portfolioConfig: Config = {
   sections: [

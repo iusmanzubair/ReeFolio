@@ -60,13 +60,14 @@ export const ChooseTemplate = () => {
 
       try {
         const themeName = themes.find((theme) => theme.name === selectedTheme)?.name;
+        console.log("Theme Name: ", themeName);
 
         if (!themeName) {
           toast.error("Invalid template");
           return;
         }
 
-        const result = await axiosInstance.post("/api/create-portfolio", { userId: "guest", themeName, customBodyResume });
+        const result = await axiosInstance.post("/api/create-portfolio", { userId: "guest", templateName: themeName, customBodyResume });
         console.log(result.data);
         if (result.status === 200) {
           const { data } = result.data;

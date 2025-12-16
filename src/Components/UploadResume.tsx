@@ -106,7 +106,7 @@ export const UploadResume = ({ open, onOpenChange, selectedTheme, handleCreatePo
               clearInterval(completionInterval);
 
               setTimeout(() => {
-                toast.success("Portfolio created successfully");
+                toast.success("Portfolio created successfully", { id: "portfolio-success" });
                 setIsLoading(false);
                 setShowPreview(true);
               }, 800)
@@ -147,6 +147,7 @@ export const UploadResume = ({ open, onOpenChange, selectedTheme, handleCreatePo
     setBase64Data("");
     setIsLoading(false);
     setProgressValue(0);
+    setShowPreview(false);
     onOpenChange(false);
   }
 

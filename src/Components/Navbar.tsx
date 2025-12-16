@@ -10,7 +10,7 @@ export const Navbar = () => {
     <ul className="flex items-center gap-4">
       <li><a href="#" className="hover:text-primary text-lg">Features</a></li>
       <li><a href="#" className="hover:text-primary text-lg">Templates</a></li>
-      <li><a href="#" className="hover:text-primary text-lg">Templates</a></li>
+      <li><a href="#" className="hover:text-primary text-lg">My Portfolio</a></li>
     </ul>
 
     <div className="space-x-8">

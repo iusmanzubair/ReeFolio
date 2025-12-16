@@ -25,6 +25,18 @@ body {
   --color-bgBlack: oklch(14.48% 0.000 0);
   --color-cardGray: oklch(20.99% 0.004 286.06);
   --color-bgSecondary: rgba(38, 38, 42, 0.8);
+
+  --color-theme-bg: oklch(0.14 0.02 240);       
+  --color-theme-surface: oklch(0.18 0.03 240);  
+
+  --color-theme-primary: oklch(0.72 0.12 195);  
+  --color-theme-accent: oklch(0.78 0.14 170);  
+
+  --color-theme-text: oklch(0.97 0.01 260);     
+  --color-theme-muted: oklch(0.75 0.03 240 / 0.65);
+
+  --font-sans: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 @layer components {
