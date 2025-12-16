@@ -5,7 +5,7 @@ import { cn } from "../utils/utils";
 import { UploadResume } from "./UploadResume";
 import { axiosInstance } from "../utils/axios-instance";
 import { toast } from "sonner";
-import LumenFlowImg from "../../public/LumenFlowImg.png"
+import { Link } from "react-router";
 
 interface themeType {
   id: number;
@@ -119,8 +119,8 @@ export const ChooseTemplate = () => {
             </div>
 
             <div className="px-6 flex gap-4">
-              <button onClick={() => window.open(`http://lumenflow.${import.meta.env.VITE_LIVEURL}`)} className="flex items-center justify-center gap-2 w-full bg-bgSecondary py-2.5 px-4 rounded-xl pl-4 cursor-pointer"><GripHorizontal className="w-4 h-4" />Preview</button>
-              <button className="flex items-center justify-center gap-2 w-full primary-btn py-2.5 px-4 rounded-xl" onClick={() => {
+              <Link to={`/${theme.name.toLowerCase()}`} className="flex items-center justify-center gap-2 w-full bg-bgSecondary py-2.5 px-4 rounded-lg pl-4 cursor-pointer"><GripHorizontal className="w-4 h-4" />Preview</Link>
+              <button className="flex items-center justify-center gap-2 w-full primary-btn py-2.5 px-4 rounded-lg" onClick={() => {
                 setIsOpen(true)
                 setSelectedTheme(theme.name)
               }}><MousePointer2 className="w-4 h-4" /> Select</button>

@@ -164,7 +164,7 @@ export const UploadResume = ({ open, onOpenChange, selectedTheme, handleCreatePo
               </div>
 
               <div className="flex items-center justify-center bg-bgSecondary w-[60%] rounded-lg h-[282px]">
-                {!uploadingResume && !resumeUploaded && !isLoading && (
+                {!uploadingResume && !resumeUploaded && !isLoading && !showPreview && (
                   <label htmlFor="resume" className="w-[90%] flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-primary/5 hover:border-primary mx-6 p-16 border border-dashed border-secondary rounded-xl">
                     <input className="hidden" name="resume" id="resume" type="file" onChange={handleResumeUpload} value="" />
                     <FileUp className="w-10 h-10 text-primary" strokeWidth={1.5} />
@@ -186,7 +186,7 @@ export const UploadResume = ({ open, onOpenChange, selectedTheme, handleCreatePo
                     <p className="mb-2 bg-primary/30 p-3.5 w-fit rounded-full"><CircleCheck className="w-9 h-9 text-primary" strokeWidth={1.5} /></p>
                     <h3 className="text-base font-semibold">Resume uploaded successfully!</h3>
                     <p className="text-secondary text-sm">Click the button below to create your portfolio</p>
-                    <button className="primary-btn py-2.5 px-5 rounded-xl mt-4" onClick={extractDetails}>Process Resume</button>
+                    <button className="primary-btn py-2.5 px-5 rounded-lg mt-4" onClick={extractDetails}>Process Resume</button>
                   </div>
                 )}
 
@@ -209,7 +209,7 @@ export const UploadResume = ({ open, onOpenChange, selectedTheme, handleCreatePo
                     <p className="mb-2 bg-primary/30 p-3.5 w-fit rounded-full"><CircleCheck className="w-9 h-9 text-primary" strokeWidth={1.5} /></p>
                     <h3 className="text-base font-semibold">Portfolio Ready!</h3>
                     <p className="text-secondary text-sm">We've successfully extracted your details and built your site.</p>
-                    <button className="primary-btn py-2.5 px-5 rounded-xl mt-4" onClick={() => handleCreatePortfolio(customBodyResume)}>View My Portfolio</button>
+                    <button className="primary-btn py-2.5 px-5 rounded-lg mt-4" onClick={() => handleCreatePortfolio(customBodyResume)}>View My Portfolio</button>
                   </div>
                 )}
 

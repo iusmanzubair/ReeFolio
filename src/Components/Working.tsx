@@ -9,7 +9,7 @@ export const Working = () => {
     </div>
     <div className="flex items-center justify-center">
       {working.map((step, index) => (
-        <div className="w-[30%] flex items-center justify-center">
+        <div className="w-[30%] flex items-center justify-center" key={step.id}>
           <div key={step.id} className="w-[70%] flex flex-col items-center justify-center gap-3">
             <p className="bg-primary/35 p-5 rounded-full"><step.icon className="text-primary w-10 h-10" /></p>
             <h4 className="text-xl font-semibold">{step.title}</h4>

@@ -15,7 +15,7 @@ export const Navbar = () => {
 
     <div className="space-x-8">
       <button className="cursor-pointer">Log In</button>
-      <button className="primary-btn py-1.5 px-5 rounded-lg">Sign Up</button>
+      <button className="primary-btn py-1.5 px-5 rounded-md">Sign Up</button>
     </div>
   </nav>
 }
