@@ -6,6 +6,7 @@ import { UploadResume } from "./UploadResume";
 import { axiosInstance } from "../utils/axios-instance";
 import { toast } from "sonner";
 import { Link } from "react-router";
+import type { Session } from "@supabase/supabase-js";
 
 interface themeType {
   id: number;
@@ -15,7 +16,7 @@ interface themeType {
   live_url: string;
 }
 
-export const ChooseTemplate = () => {
+export const ChooseTemplate = ({ session } : { session: Session | null }) => {
   const [expandedCards, setExpandedCards] = useState<number[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState<string>("");
@@ -67,15 +68,17 @@ export const ChooseTemplate = () => {
           return;
         }
 
-        const result = await axiosInstance.post("/api/create-portfolio", { userId: "guest", templateName: themeName, customBodyResume });
+        const result = await axiosInstance.post("/api/create-portfolio", { userId: session ? session.user.id : "guest", templateName: themeName, customBodyResume });
         console.log(result.data);
         if (result.status === 200) {
           const { data } = result.data;
           const url = `/p/${data.id}`;
 
-          const guestIds = JSON.parse(sessionStorage.getItem("guestPortfolioIds") || '[]');
-          guestIds.push(data.id);
-          sessionStorage.setItem("guestPortfolioIds", JSON.stringify(guestIds));
+          if(!session) {
+            const guestIds = JSON.parse(sessionStorage.getItem("guestPortfolioIds") || '[]');
+            guestIds.push(data.user_id);
+            sessionStorage.setItem("guestPortfolioIds", JSON.stringify(guestIds));
+          }
 
           window.open(url, '_blank');
         }
@@ -113,15 +116,17 @@ export const ChooseTemplate = () => {
 
         return (
           <div key={theme.id} className="bg-cardGray w-[32rem] pb-6 rounded-xl border-[1px] border-neutral-700/50">
-            <img src={theme.preview_image_url.split(',')[0].toString().substring(1)} alt="template" className="rounded-t-2xl" />
+            <img src={theme.preview_image_url.split(',')[0].toString().substring(1)} alt="template" className="rounded-t-2xl h-60 w-full object-cover" />
             <div className="p-6 space-y-2">
               <h3 className="text-2xl font-semibold">{theme.name}</h3>
               <p className={cn("text-lg font-light text-secondary", { "line-clamp-2": !isExpanded })}>{theme.description}</p>
             </div>
 
             <div className="px-6 flex gap-4">
-              <Link to={`/${theme.name.toLowerCase()}`} className="flex items-center justify-center gap-2 w-full bg-bgSecondary py-2.5 px-4 rounded-lg pl-4 cursor-pointer"><GripHorizontal className="w-4 h-4" />Preview</Link>
-              <button className="flex items-center justify-center gap-2 w-full primary-btn py-2.5 px-4 rounded-lg" onClick={() => {
+              {theme.name === "MonoEdge" ? 
+                <span className="flex items-center justify-center gap-2 w-full bg-bgSecondary py-2.5 px-4 rounded-lg pl-4 cursor-pointer"><GripHorizontal className="w-4 h-4" />Preview</span>
+               : <Link to={`/${theme.name.toLowerCase()}`} className="flex items-center justify-center gap-2 w-full bg-bgSecondary py-2.5 px-4 rounded-lg pl-4 cursor-pointer"><GripHorizontal className="w-4 h-4" />Preview</Link>}
+              <button disabled={theme.name === "MonoEdge"} className="flex items-center justify-center gap-2 w-full primary-btn py-2.5 px-4 rounded-lg" onClick={() => {
                 setIsOpen(true)
                 setSelectedTheme(theme.name)
               }}><MousePointer2 className="w-4 h-4" /> Select</button>
