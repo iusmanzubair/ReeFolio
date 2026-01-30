@@ -31,7 +31,7 @@ export const UploadResume = ({ open, onOpenChange, selectedTheme, handleCreatePo
   }, [progressValue]);
 
   const handleResumeUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files[0];
+    const file = e.target.files![0];
     if (file?.type === "application/pdf") {
       await handleFile(file);
     }
