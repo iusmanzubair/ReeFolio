@@ -22,9 +22,7 @@ export const ChooseTemplate = ({ session } : { session: Session | null }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState<string>("");
   const [isLoadingThemes, setIsLoadingThemes] = useState<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isCreating, setIsCreating] = useState<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
   const [themes, setThemes] = useState<themeType[] | []>([]);
   const navigate = useNavigate();
@@ -34,6 +32,8 @@ export const ChooseTemplate = ({ session } : { session: Session | null }) => {
   }, []);
 
   const fetchThemes = async () => {
+    console.log(isCreating);
+    console.log(error);
     setIsLoadingThemes(true);
     setError(null);
 
