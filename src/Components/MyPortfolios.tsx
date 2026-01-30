@@ -6,10 +6,13 @@ import { ChevronDown, ChevronUp, GripHorizontal } from "lucide-react";
 import { cn } from "../utils/utils";
 import { MaxWidthWrapper } from "./MaxWidthWrapper";
 import { Link } from "react-router";
+import LoadingSpinner from "./LoadingSpinner";
 
 export const MyPortfolios = ({ session } : { session: Session }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [portfolios, setPortfolios] = useState<any>([]);
   const [expandedCards, setExpandedCards] = useState<number[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     fetchUserPortfolios();
@@ -17,6 +20,7 @@ export const MyPortfolios = ({ session } : { session: Session }) => {
 
   const fetchUserPortfolios = async () => {
     try {
+      setIsLoading(true);
       const { data } = await axiosInstance.get('/api/fetch-portfolios-by-userid', {
         headers: { 'Authorization': `Bearer ${session.access_token}`, }
       }); 
@@ -26,6 +30,8 @@ export const MyPortfolios = ({ session } : { session: Session }) => {
     } catch (error) {
       console.log(error);
       toast.error("Error fetching portfolios"); 
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -36,15 +42,19 @@ export const MyPortfolios = ({ session } : { session: Session }) => {
         : [...prev, id]
     )
   }
+  
+  if(isLoading) return <LoadingSpinner />
 
   return <MaxWidthWrapper className="flex flex-col items-center mb-12"> 
     <div className="w-[60%] space-y-4 my-14">
-      <h1 className="text-5xl tracking-tight font-bold text-center">Select Your <span className="gradient-text">Portfolio</span> Theme</h1>
-      <p className="text-xl font-light text-secondary text-center">Choose a theme that reflects your unique style and professional identity. Each template is fully customizable to suit your needs.</p>
+      <h1 className="text-5xl tracking-tight font-bold text-center">Your <span className="gradient-text">Portfolios</span></h1>
+      <p className="text-xl font-light text-secondary text-center">Explore your portfolios and keep your work beautifully organized.</p>
     </div>
 
     <div className="grid grid-cols-2 gap-16 items-start">
-      {portfolios.map((portfolio: any) => {
+      {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      portfolios.map((portfolio: any) => {
         
         const isExpanded = expandedCards.includes(portfolio.id);
 

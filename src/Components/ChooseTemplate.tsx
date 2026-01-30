@@ -5,8 +5,9 @@ import { cn } from "../utils/utils";
 import { UploadResume } from "./UploadResume";
 import { axiosInstance } from "../utils/axios-instance";
 import { toast } from "sonner";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import type { Session } from "@supabase/supabase-js";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface themeType {
   id: number;
@@ -21,9 +22,12 @@ export const ChooseTemplate = ({ session } : { session: Session | null }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState<string>("");
   const [isLoadingThemes, setIsLoadingThemes] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isCreating, setIsCreating] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
   const [themes, setThemes] = useState<themeType[] | []>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchThemes();
@@ -54,6 +58,7 @@ export const ChooseTemplate = ({ session } : { session: Session | null }) => {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleCreateProtfolio = async (customBodyResume: any) => {
     console.log(customBodyResume);
     if (selectedTheme) {
@@ -76,11 +81,11 @@ export const ChooseTemplate = ({ session } : { session: Session | null }) => {
 
           if(!session) {
             const guestIds = JSON.parse(sessionStorage.getItem("guestPortfolioIds") || '[]');
-            guestIds.push(data.user_id);
+            guestIds.push(data.useer_id);
             sessionStorage.setItem("guestPortfolioIds", JSON.stringify(guestIds));
           }
 
-          window.open(url, '_blank');
+          navigate(url);
         }
         else {
           toast.error("Failed to create portfolio");
@@ -103,6 +108,8 @@ export const ChooseTemplate = ({ session } : { session: Session | null }) => {
         : [...prev, id]
     )
   }
+
+  if(isLoadingThemes) return <LoadingSpinner />
 
   return <MaxWidthWrapper className="flex flex-col items-center mb-12">
     <div className="w-[60%] space-y-4 my-14">

@@ -9,6 +9,7 @@ interface UploadResumeProps {
   open: boolean,
   onOpenChange: (open: boolean) => void,
   selectedTheme: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleCreatePortfolio: (customBody: any) => void
 }
 
