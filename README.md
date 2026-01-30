@@ -1,69 +1,40 @@
-# React + TypeScript + Vite
+## Reefolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Reefolio is a web application that automatically converts an uploaded resume into a hosted portfolio website. Users can upload their resume, choose a design template, and the system uses AI to parse the data and populate a professional portfolio.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Features
 
-## Expanding the ESLint configuration
+* **Resume Parsing:** Extracts data from resumes using Google Gemini AI.
+* **Template Selection:** Choose from various portfolio layouts.
+* **Media Management:** Uploads and storage handled via Cloudinary.
+* **Authentication:** Secure login and signup using Supabase OAuth.
+* **Responsive Design:** Fully responsive UI built with Tailwind CSS.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+| Layer | Technology |
+| :--- | :--- |
+| **Frontend** | React, Tailwind CSS, React Router, Framer Motion, Axios |
+| **Backend** | Laravel (PHP) |
+| **Database & Auth** | Supabase |
+| **Cloud Storage** | Cloudinary |
+| **Generative AI** | Google Gemini API |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Usage
+1. **Log in** using your preferred social account via OAuth.
+2. **Upload** your resume (PDF/Docx).
+3. **Select** a portfolio template from the available options.
+4. **AI Generation:** Wait for Gemini to parse and format your content.
+5. **Publish:** Preview your new portfolio and save the link.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 🔗 Backend Server Code
+The API and server-side logic for this project are located in a separate repository. You can access it here:
+**[Reefolio Server Repository](https://github.com/iusmanzubair/Refoolio-server)**
