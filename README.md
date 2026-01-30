@@ -37,4 +37,4 @@ Reefolio is a web application that automatically converts an uploaded resume int
 
 ### 🔗 Backend Server Code
 The API and server-side logic for this project are located in a separate repository. You can access it here:
-**[Reefolio Server Repository](https://github.com/iusmanzubair/Refoolio-server)**
+**[Reefolio Server Repository](https://github.com/iusmanzubair/Reefolio-server)**
